@@ -1,4 +1,3 @@
-import React from "react"; // import React library
 import ReactDOM from "react-dom/client"; // import ReactDOM for rendering
 import Pizza from "./Pizza.jsx"; // import the Pizza component
 
@@ -6,14 +5,24 @@ const App = () => {
   return (
     <div>
       <h1>Pixel Perfect Pizzas</h1>
-      <Pizza /> {/* React tries to run the function and get the return value */}
-      <Pizza name="Hawaiian Pizza" ingredients={["Ham", "Pineapple"]} />{" "}
+      <Pizza image={"/public/pizzas/pepperoni.webp"} />
+      {/* React tries to run the function and get the return value */}
+      <Pizza
+        name="Hawaiian Pizza"
+        ingredients={["Ham", "Pineapple"]}
+        image={"/public/pizzas/hawaiian.webp"}
+      />{" "}
       {/* passing props */}
-      <Pizza name="Pepperoni Pizza" /> {/* passing props */}
+      <Pizza
+        name="Pepperoni Pizza"
+        image={"/public/pizzas/pepperoni.webp"}
+      />{" "}
+      {/* passing props */}
     </div>
   );
 };
 
-const container = document.getElementById("root"); // where we want to render our React app
+export default App; // export the App component so it can be used in other files
+const container = document.getElementById("root"); // get the root element from the HTML
 const root = ReactDOM.createRoot(container);
-root.render(React.createElement(App));
+root.render(<App />);
