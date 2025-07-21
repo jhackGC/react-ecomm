@@ -1,18 +1,18 @@
 /*
- * ESLint changed a lot with version 9. In previous versions they used JSON for configuration which 
+ * ESLint changed a lot with version 9. In previous versions they used JSON for configuration which
  * is no longer supported. You have to do their newer "flat" version of config
  */
 
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
-// globals is a package that is just a big JSON file of what's available in each environment. 
+// globals is a package that is just a big JSON file of what's available in each environment.
+import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
-
 
 // we want to use module syntax, that's what we are using .mjs extension
 // otherwise we would use .cjs extension by default but that would be for CommonJS, and will use require
 
-// This (@type...) is a VS Code / TypeScript trick to be able to do auto-completions on the config object. 
+// This (@type...) is a VS Code / TypeScript trick to be able to do auto-completions on the config object.
 // Super helpful to have the types available right in VS Code. It's not required.
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -23,8 +23,24 @@ export default [
       globals: { ...globals.browser, ...globals.node }, // be aware of browser and node globals, e.g. using "window" or "document" globals in our components
       parserOptions: {
         ecmaFeatures: {
-          jsx: true, // enable JSX syntax
+          jsx: true,
         },
+      },
+    },
+    plugins: {
+      react: reactPlugin,
+    },
+    rules: {
+      ...reactPlugin.configs.recommended.rules,
+      ...reactPlugin.configs.flat["jsx-runtime"].rules,
+      ...{
+        "react/no-unescaped-entities": "off",
+        "react/prop-types": "off",
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
       },
     },
   },
