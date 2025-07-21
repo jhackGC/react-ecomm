@@ -2,7 +2,7 @@ import React from "react"; // import React library
 
 // plain react functional component
 // This is a pure React example without any build tools or JSX
-const Pizza = (
+const PizzaAsJS = (
   props, // props are passed in as an argument
 ) => {
   const name = props.name || "Cheese Pizza"; // default to Cheese Pizza if no name prop is passed
@@ -21,4 +21,4 @@ const Pizza = (
   ]);
 };
 
-export default Pizza; // export the component so it can be used in other files
+export default PizzaAsJS; // export the component so it can be used in other files

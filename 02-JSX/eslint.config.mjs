@@ -1,48 +1,34 @@
-/*
- * ESLint changed a lot with version 9. In previous versions they used JSON for configuration which
- * is no longer supported. You have to do their newer "flat" version of config
- */
-
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
-// globals is a package that is just a big JSON file of what's available in each environment.
 import reactPlugin from "eslint-plugin-react";
 import globals from "globals";
 
-// we want to use module syntax, that's what we are using .mjs extension
-// otherwise we would use .cjs extension by default but that would be for CommonJS, and will use require
-
-// This (@type...) is a VS Code / TypeScript trick to be able to do auto-completions on the config object.
-// Super helpful to have the types available right in VS Code. It's not required.
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  js.configs.recommended, // use the recommended rules from ESLint's config
+  js.configs.recommended,
   {
-    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"], // apply these rules to all JavaScript and TypeScript files
-    languageOptions: {
-      globals: { ...globals.browser, ...globals.node }, // be aware of browser and node globals, e.g. using "window" or "document" globals in our components
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-    plugins: {
-      react: reactPlugin,
-    },
-    rules: {
-      ...reactPlugin.configs.recommended.rules,
-      ...reactPlugin.configs.flat["jsx-runtime"].rules,
-      ...{
-        "react/no-unescaped-entities": "off",
-        "react/prop-types": "off",
-      },
-    },
+    ...reactPlugin.configs.flat.recommended,
     settings: {
       react: {
         version: "detect",
       },
     },
   },
-  prettier, // use Prettier to format the code, this will disable any ESLint rules that conflict with Prettier
+  reactPlugin.configs.flat["jsx-runtime"],
+  {
+    files: ["**/*.js", "**/*.jsx"],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    rules: {
+      "react/no-unescaped-entities": "off",
+      "react/prop-types": "off",
+    },
+  },
+  prettier,
 ];
