@@ -17,8 +17,13 @@ export default function Cart({ cart, checkout }) {
     <div className="cart">
       <h2>Cart</h2>
       <ul>
-        {cart.map((item, index) => (
-          <li key={index}>
+        {cart.map((item) => (
+          // for the key, we might be forced to use the index here,
+          // because we don't have a unique id for each item,
+          // nor size or name are unique in this list as we can more than one with the
+          // same size or name,
+          // you could though, create a unique id with the name and size combined
+          <li key={item.pizza.name + "_" + item.size}>
             <span className="size">{item.size}</span> –
             <span className="type">{item.pizza.name}</span> –
             <span className="price">{item.price}</span>
